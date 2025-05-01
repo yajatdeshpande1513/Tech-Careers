@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Career Roadmap Pro</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="rm.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <button id="home" onclick="location.href='http://127.0.0.1:3000/dashboard.html'">🏠HOME</button>
+      <h1><span>Tech Career</span> Roadmap Pro</h1>
+      <div class="career-selector">
+        <select id="career-select">
+          <option value="" disabled selected>Select Career Path</option>
+          <option value="ai-ml">AI/ML Engineer</option>
+          <option value="data-science">Data Scientist</option>
+          <option value="cybersecurity">Ethical Hacker</option>
+          <option value="cloud-computing">Cloud Computing</option>
+          <option value="devops">DevOps Engineer</option>
+          <option value="web-dev">Web Developer</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="career-overview">
+      <div class="salary-box">
+        <h3>Average Salary</h3>
+        <p id="salary">₹6,00,000 - ₹18,00,000</p>
+      </div>
+      <div class="duration-box">
+        <h3>Time to Proficiency</h3>
+        <p id="duration">6-18 months</p>
+      </div>
+    </section>
+
+    <section class="roadmap-container" id="roadmap">
+      <div class="empty-state">
+        <i class="fas fa-project-diagram"></i>
+        <p>Select a career to view detailed roadmap</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="rm.js"></script>
+</body>
+</html>

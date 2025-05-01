@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career AI Chatbot</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --light: #e8f1f5;
+            --dark: #1e3d59;
+            --accent: #ff6e6c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .career-selector {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .career-btn {
+            background-color: white;
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .career-btn:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .career-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            height: 600px;
+        }
+        
+        .chat-header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chat-header img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: white;
+        }
+        
+        .chat-header h2 {
+            font-size: 1.2rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.4;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .user-message {
+            background-color: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .bot-message {
+            background-color: var(--light);
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-form {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background-color: #f5f7fb;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            border-color: var(--primary);
+        }
+        
+        .send-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            background-color: var(--dark);
+            transform: scale(1.05);
+        }
+        
+        .send-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background-color: #f0f0f0;
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.5;
+            }
+        }
+        
+        .dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #666;
+            border-radius: 50%;
+            animation: bounce 1.5s infinite;
+        }
+        
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .intro-message {
+            text-align: center;
+            margin-top: 200px;
+            color: #999;
+        }
+        
+        @media (max-width: 768px) {
+            .career-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .career-btn {
+                width: 80%;
+            }
+            
+            .chat-container {
+                height: 70vh;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Career Pathway AI Assistant</h1>
+            <p>Select a career path and start chatting about your professional journey</p>
+        </header>
+        
+        <div class="career-selector">
+            <button class="career-btn" data-career="ai">AI/Machine Learning</button>
+            <button class="career-btn" data-career="cyber">Cybersecurity</button>
+            <button class="career-btn" data-career="devops">DevOps</button>
+            <button class="career-btn" data-career="web">Web Development</button>
+            <button class="career-btn" data-career="data">Data Science</button>
+        </div>
+        
+        <div class="chat-container">
+            <div class="chat-header">
+                <img src="/api/placeholder/35/35" alt="AI Assistant">
+                <h2>Career Assistant</h2>
+            </div>
+            
+            <div class="chat-messages">
+                <div class="intro-message">
+                    <h3>Select a career path above to begin chatting</h3>
+                </div>
+            </div>
+            
+            <div class="typing-indicator">
+                <div class="dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+            
+            <form class="chat-form disabled">
+                <input type="text" class="chat-input" placeholder="Type your message..." disabled>
+                <button type="submit" class="send-btn" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const careerBtns = document.querySelectorAll('.career-btn');
+            const chatMessages = document.querySelector('.chat-messages');
+            const chatForm = document.querySelector('.chat-form');
+            const chatInput = document.querySelector('.chat-input');
+            const sendBtn = document.querySelector('.send-btn');
+            const typingIndicator = document.querySelector('.typing-indicator');
+            
+            let selectedCareer = null;
+            
+            // API configuration - this would be replaced with your actual API credentials
+            const apiKey = "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";
+            const apiEndpoint = "https://api.openai.com/v1/chat/completions"; // Example using OpenAI
+            
+            // Career descriptions
+            const careerIntros = {
+                ai: "I'm your AI/Machine Learning career assistant. I can help with questions about AI roles, skills, learning paths, certifications, industry trends, and job opportunities in artificial intelligence and machine learning.",
+                cyber: "I'm your Cybersecurity career assistant. I can help with questions about security roles, skills, certifications, threat landscapes, career progression, and job opportunities in cybersecurity.",
+                devops: "I'm your DevOps career assistant. I can help with questions about DevOps methodologies, tools, automation, infrastructure as code, CI/CD, cloud services, and career paths in DevOps.",
+                web: "I'm your Web Development career assistant. I can help with questions about front-end, back-end, full-stack development, frameworks, technologies, portfolio building, and career paths in web development.",
+                data: "I'm your Data Science career assistant. I can help with questions about data analysis, visualization, machine learning, statistics, tools, languages, and career opportunities in data science."
+            };
+            
+            // Career selection
+            careerBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    careerBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get selected career
+                    selectedCareer = this.getAttribute('data-career');
+                    
+                    // Clear chat messages and show intro
+                    chatMessages.innerHTML = '';
+                    
+                    // Enable chat form
+                    chatForm.classList.remove('disabled');
+                    chatInput.disabled = false;
+                    sendBtn.disabled = false;
+                    
+                    // Add bot introduction message
+                    setTimeout(() => {
+                        addMessage('bot', careerIntros[selectedCareer]);
+                    }, 500);
+                });
+            });
+            
+            // Send message function
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const message = chatInput.value.trim();
+                
+                if (message && selectedCareer) {
+                    // Add user message to chat
+                    addMessage('user', message);
+                    
+                    // Clear input
+                    chatInput.value = '';
+                    
+                    // Show typing indicator
+                    typingIndicator.style.display = 'block';
+                    
+                    // Send to API and get response
+                    sendToAPI(message, selectedCareer)
+                        .then(response => {
+                            // Hide typing indicator
+                            typingIndicator.style.display = 'none';
+                            
+                            // Add bot message to chat
+                            addMessage('bot', response);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            typingIndicator.style.display = 'none';
+                            addMessage('bot', "I'm sorry, I encountered an error processing your request. Please try again.");
+                        });
+                }
+            });
+            
+            // Add message to chat function
+            function addMessage(type, content) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.classList.add(type === 'user' ? 'user-message' : 'bot-message');
+                messageElement.textContent = content;
+                
+                chatMessages.appendChild(messageElement);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Send to API function - here you would integrate with your chosen AI API
+            async function sendToAPI(message, career) {
+                // This is a simplified example - in a real implementation, you would make an API call
+                // For now, we'll simulate the API response with a mock function
+                
+                // This is where you would make a fetch or axios call to your API
+                 const response = await fetch(apiEndpoint, {
+                     method: 'POST',
+                     headers: {
+                         'Content-Type': 'application/json',
+                         'Authorization': `Bearer ${apiKey}`
+                     },
+                     body: JSON.stringify({
+                         model: "gpt-3.5-turbo", // Replace with your preferred model
+                         messages: [
+                             {
+                                 role: "system",
+                                 content: `You are a career assistant specialized in ${career}. Provide helpful, concise guidance related to this career path.`
+                             },
+                             {
+                                 role: "user",
+                                 content: message
+                             }
+                         ]
+                     })
+                 });
+            
+                // const data = await response.json();
+                // return data.choices[0].message.content;
+                
+                // Simulated API response for demonstration
+                return await simulateAPIResponse(message, career);
+            }
+            
+            // Simulate API response for demonstration purposes
+            function simulateAPIResponse(message, career) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        let response;
+                        
+                        // Simple mock responses based on career and common questions
+                        if (message.toLowerCase().includes('skills') || message.toLowerCase().includes('learn')) {
+                            switch(career) {
+                                case 'ai':
+                                    response = "For AI/ML careers, key skills include Python, statistics, deep learning frameworks like TensorFlow or PyTorch, and an understanding of algorithms. Consider starting with online courses from platforms like Coursera, edX, or fast.ai.";
+                                    break;
+                                case 'cyber':
+                                    response = "For cybersecurity, focus on networking fundamentals, operating systems, common vulnerabilities, encryption, and security frameworks. CompTIA Security+ is a great entry-level certification to pursue.";
+                                    break;
+                                case 'devops':
+                                    response = "DevOps professionals should learn Linux, containerization (Docker), orchestration (Kubernetes), CI/CD pipelines, cloud platforms (AWS/Azure/GCP), and infrastructure as code tools like Terraform or Ansible.";
+                                    break;
+                                case 'web':
+                                    response = "For web development, start with HTML, CSS, and JavaScript. Then choose a path (front-end frameworks like React/Vue, or back-end with Node.js/Python/PHP). Build projects for your portfolio and learn version control with Git.";
+                                    break;
+                                case 'data':
+                                    response = "Data scientists should master Python or R, SQL, statistics, machine learning algorithms, data visualization, and big data technologies. Start with projects analyzing public datasets to build your portfolio.";
+                                    break;
+                            }
+                        } else if (message.toLowerCase().includes('job') || message.toLowerCase().includes('career') || message.toLowerCase().includes('role')) {
+                            switch(career) {
+                                case 'ai':
+                                    response = "AI/ML career paths include Machine Learning Engineer, AI Researcher, NLP Engineer, Computer Vision Engineer, and AI Ethics Specialist. Entry-level roles often start with Data Scientist positions that gradually specialize in ML.";
+                                    break;
+                                case 'cyber':
+                                    response = "Cybersecurity offers roles like Security Analyst, Penetration Tester, Security Engineer, Security Architect, and CISO. Many start as IT support or network administrators before specializing in security.";
+                                    break;
+                                case 'devops':
+                                    response = "DevOps career paths include DevOps Engineer, Site Reliability Engineer (SRE), Cloud Engineer, Platform Engineer, and DevSecOps Engineer. Many professionals transition from either development or operations backgrounds.";
+                                    break;
+                                case 'web':
+                                    response = "Web development offers roles like Front-End Developer, Back-End Developer, Full-Stack Developer, UX/UI Developer, and WebApp Security Specialist. Many start with freelance projects or junior developer positions.";
+                                    break;
+                                case 'data':
+                                    response = "Data Science careers include Data Analyst, Data Scientist, Data Engineer, Machine Learning Engineer, and Analytics Manager. Many start in analyst roles before moving to more advanced positions.";
+                                    break;
+                            }
+                        } else if (message.toLowerCase().includes('salary') || message.toLowerCase().includes('pay')) {
+                            switch(career) {
+                                case 'ai':
+                                    response = "AI/ML professionals typically earn competitive salaries. Entry-level positions often start around $80,000-100,000, while experienced roles can reach $150,000+ depending on location, company size, and specialized expertise.";
+                                    break;
+                                case 'cyber':
+                                    response = "Cybersecurity professionals are in high demand. Entry-level security analysts typically earn $60,000-80,000, while experienced security engineers or architects can earn $120,000-160,000+ depending on location and specialization.";
+                                    break;
+                                case 'devops':
+                                    response = "DevOps engineers typically earn between $90,000-140,000, with senior positions reaching $160,000+. Cloud and Kubernetes expertise often commands premium compensation.";
+                                    break;
+                                case 'web':
+                                    response = "Web developer salaries vary widely. Junior developers might start around $50,000-70,000, while senior or specialized developers can earn $100,000-150,000+ depending on location, tech stack, and company.";
+                                    break;
+                                case 'data':
+                                    response = "Data scientists earn competitive salaries. Entry-level positions typically start around $70,000-90,000, while experienced data scientists can earn $120,000-160,000+ depending on industry and location.";
+                                    break;
+                            }
+                        } else {
+                            // Default responses for other queries
+                            switch(career) {
+                                case 'ai':
+                                    response = "I understand you're interested in AI/ML careers. Could you specify what aspect you'd like to know more about? For example, I can help with learning resources, job roles, technical skills, or industry trends in artificial intelligence.";
+                                    break;
+                                case 'cyber':
+                                    response = "I see you're exploring cybersecurity careers. What specific aspect are you curious about? I can help with entry paths, certifications, specializations, or current trends in the security industry.";
+                                    break;
+                                case 'devops':
+                                    response = "I notice you're interested in DevOps. Would you like information about specific tools, cloud platforms, career progression, or how to transition into a DevOps role?";
+                                    break;
+                                case 'web':
+                                    response = "Thanks for your interest in web development. Are you looking for information about front-end, back-end, or full-stack development? Or perhaps you'd like to know about learning paths or portfolio building?";
+                                    break;
+                                case 'data':
+                                    response = "I see you're exploring data science. Would you like information about required skills, tools, learning resources, or specific roles within the data science field?";
+                                    break;
+                            }
+                        }
+                        
+                        resolve(response);
+                    }, 1500); // Simulate API delay
+                });
+            }
+        });
+    </script>
+</body>
+</html>
