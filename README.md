@@ -19,11 +19,8 @@ This project leverages Machine Learning to provide career guidance for students 
 - **Personalized Career Recommendations:**  
   Suggests tech career paths based on user input and ML analysis.
 
-- **Skill Gap Analysis:**  
-  Identifies areas for improvement and suggests relevant learning resources.
-
-- **Industry Trends:**  
-  Integrates current job market data to align recommendations with in-demand skills.
+- **SoftSKills**  
+  Provide your response to the given scenario, and the system will display your top soft skill along with ratings for other relevant skills.
 
 - **User-Friendly Interface:**  
   Simple and intuitive UI for entering data and viewing results.
@@ -78,4 +75,4 @@ Feel free to use, modify, and share with attribution.
 ---
 
 **Star** this repo if you find it useful!  
-For questions or feedback, open an issue or contact [vandandalvi](https://github.com/vandandalvi).
+For questions or feedback, open an issue or contact [vandandalvi](https://github.com/vandandalvi). 
