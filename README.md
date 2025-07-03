@@ -1,4 +1,4 @@
-# TECH Career Guidance using ML
+# TECH Career Guidance using ML (FRONTEND)
 
 This project leverages Machine Learning to provide career guidance for students and professionals in the tech industry.
 
