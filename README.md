@@ -11,6 +11,9 @@ This project leverages Machine Learning to provide career guidance for students 
 - **Miniproject/**  
   Contains code, datasets, and resources for the core ML models and supporting scripts.
 
+- **CarrerML/**  
+  Contains code, datasets, and resources for the core ML models and supporting scripts.
+  
 - **README.md**  
   This file. Project overview, usage, and contribution guidelines.
 
