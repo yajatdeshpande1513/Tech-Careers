@@ -24,13 +24,15 @@ document.body.appendChild(logoutButton);
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyD_-RGwYoK0H9PzHRYVDnTIX1M1X5cYq7w",
-  authDomain: "myproject-aae1e.firebaseapp.com",
-  projectId: "myproject-aae1e",
-  storageBucket: "myproject-aae1e.firebasestorage.app",
-  messagingSenderId: "637348016976",
-  appId: "1:637348016976:web:23e64557a0b96b61f83255"
+  apiKey: "AIzaSyBseUWrogtOxHBw5hWOC0Q_y0Z-iIubDAE",
+  authDomain: "savita-85261.firebaseapp.com",
+  projectId: "savita-85261",
+  storageBucket: "savita-85261.firebasestorage.app",
+  messagingSenderId: "827093176063",
+  appId: "1:827093176063:web:c053d3f39f5800146006ca",
+  measurementId: "G-L850MNCG9Z"
 };
+
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

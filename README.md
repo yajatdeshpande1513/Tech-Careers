@@ -77,5 +77,3 @@ Feel free to use, modify, and share with attribution.
 
 ---
 
-**Star** this repo if you find it useful!  
-For questions or feedback, open an issue or contact [vandandalvi](https://github.com/vandandalvi). 

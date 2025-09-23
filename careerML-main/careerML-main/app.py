@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for, j
 import joblib
 import numpy as np
 import random
+import os
 
 app = Flask(__name__)
 app.secret_key = "career_assessment_secret_key"
